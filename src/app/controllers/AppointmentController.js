@@ -65,6 +65,22 @@ class AppointmentController {
     }
 
     /**
+     * Check if the current user is a provider
+     */
+    const checkUserIsProvider = await User.findOne({
+      where: {
+        id: req.userId,
+        provider: true,
+      },
+    });
+
+    if (checkUserIsProvider) {
+      return res
+        .status(401)
+        .json({ error: 'You cannot schedule an appointment with yourself' });
+    }
+
+    /**
      * Check for past dates
      */
     const hourStart = startOfHour(parseISO(date));
