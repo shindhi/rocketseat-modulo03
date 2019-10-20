@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
 // Models
 import User from '../app/models/User';
@@ -13,6 +14,7 @@ const models = [User, File, Appointment];
 class Database {
   constructor() {
     this.init();
+    this.mongo();
   }
 
   // Conexao com o bd e carregar os models
@@ -23,6 +25,21 @@ class Database {
     models
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models));
+  }
+
+  /**
+   * localhost == user + password
+   * gobarber == name bd
+   */
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      'mongodb://localhost:27017/gobarber',
+      {
+        useNewUrlParser: true,
+        useFindAndModify: true,
+        useUnifiedTopology: true,
+      }
+    );
   }
 }
 
