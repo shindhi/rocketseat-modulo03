@@ -34,7 +34,7 @@ class Queue {
     });
   }
 
-  handlefailure(job, err) {
+  handleFailure(job, err) {
     console.log(`Queue ${job.queue.name}: FAILED`, err);
   }
 }
